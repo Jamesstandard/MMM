@@ -15,9 +15,11 @@ import com.aistudio.multimetamatrix.ui.theme.MultiMetaMatrixTheme
 
 import androidx.room.Room
 import com.aistudio.multimetamatrix.data.AppDatabase
+import com.aistudio.multimetamatrix.data.AppPreferences
 
 class MainActivity : ComponentActivity() {
     lateinit var database: AppDatabase
+    lateinit var appPreferences: AppPreferences
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +29,12 @@ class MainActivity : ComponentActivity() {
             AppDatabase::class.java, "mmm-database"
         ).fallbackToDestructiveMigration().build()
         
+        appPreferences = AppPreferences(applicationContext)
+        
         enableEdgeToEdge()
         setContent {
             MultiMetaMatrixTheme {
-                AppScaffold(database)
+                AppScaffold(database, appPreferences)
             }
         }
     }
